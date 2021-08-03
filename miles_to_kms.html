@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script src="..\js\react.development.js"></script>
+    <script src="..\js\react-dom.development.js"></script>
+    <script src="..\js\babel.js"></script>
+
+    <script type="text/babel">
+        const { useState } = React
+        const rootHandle = document.getElementById('root')
+        function Milesconverter(props) {
+            const [kilometer, setKilometer] = useState(0)
+            const [miles, setMiles] = useState(0)
+
+            const handleMilesChange = (e) => {
+                const mileinput = e.target.value
+                const result = (mileinput * 1.609344).toFixed(2)
+                setKilometer(result)
+                setMiles(mileinput)
+            }
+            return (
+                <div>
+                    <h1>Miles to kilometer converter</h1>
+                    <form>
+                        <label><b>KM's - {kilometer}</b></label><br />
+                        <label><b>Miles - {miles}</b></label><br />
+                        <input type="range" value={miles} onChange={handleMilesChange} /><br />
+                    </form>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Milesconverter />, rootHandle)
+    </script>
+</body>
+
+</html>

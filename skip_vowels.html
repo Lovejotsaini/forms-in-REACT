@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById("root");
+        const { useState } = React;
+
+        function VowelSkip(props) {
+            const [text, setText] = useState("");
+            const [word, setWords] = useState("");
+            const vowels = "aeiou";
+            const handleTextChange = (e) => {
+                const textAreaInput = e.target.value;
+                const newWord = textAreaInput.split("").filter((char) => {
+                    return !vowels.includes(char.toLowerCase());
+                });
+                setWords(newWord.join(""));
+                setText(textAreaInput);
+            };
+            return (
+                <div>
+                    <h1>Text without vowels</h1>
+                    <h2>{word}</h2>
+                    <form>
+                        <textarea value={text} onChange={handleTextChange}></textarea>
+                    </form>
+                </div>
+            );
+        }
+        ReactDOM.render(<VowelSkip />, rootHandle);
+    </script>
+</body>
+
+</html>

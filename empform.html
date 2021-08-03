@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script src="..\js\react.development.js"></script>
+    <script src="..\js\react-dom.development.js"></script>
+    <script src="..\js\babel.js"></script>
+
+    <script type="text/babel">
+        const { useState } = React
+        const rootHandle = document.getElementById('root')
+        function EmpData(props) {
+            const [users, setUsers] = useState(employee)
+            const [employee, setEmployee] = useState([
+
+                { id: 1, name: 'emp11', email: 'emp11@gmail.com', selected: false },
+
+                { id: 2, name: 'emp12', email: 'emp12@gmail.com', selected: false },
+
+                { id: 3, name: 'emp13', email: 'emp13@gmail.com', selected: false },
+
+                { id: 4, name: 'emp14', email: 'emp14@gmail.com', selected: false }
+
+            ])
+            const handleSelectedChange = (id) => {
+               const newUserList=[...employee]
+               console.log(newUserList)
+                const updatedUser = newUserList.map((ele) => {
+                    if (ele.id === id) {
+                       console.log(ele.selected)
+                        return { ...ele, ...{ selected: !ele.selected } };
+                    } else {
+                        return ele;
+                    }
+                });
+                setEmployee(updatedUser);
+            }
+
+            return (
+                <div>
+                    <h1>Employees Data-{employee.length}</h1>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>emp name</th>
+                                <th>action</th>
+                            </tr>
+                        </thead>
+                        <tbody>{employee.map((ele) => {
+                            return <tr key={ele.id}>
+                                <td>{ele.id}</td>
+                                <td>{ele.name}</td>
+                                <td>{
+                                    <input type="checkbox" value={ele.name} checked={ele.selected}
+                                        onChange={() => {
+                                            handleSelectedChange(ele.id);
+                                        }}
+                                    />
+                                }</td>
+                            </tr>
+                        })
+
+                        }
+
+                        </tbody>
+                    </table>
+                    <h1>Selected employees-{users}</h1>
+                     <ul>
+                        {employee.map((ele) => {
+                          //  console.log(ele.selected)
+                            if (ele.selected) {
+                                return <li key={ele.id}>{ele.name}</li>;
+                            }
+                        })}
+                    </ul>
+                </div>
+            )
+        }
+
+
+        ReactDOM.render(<EmpData />, rootHandle)
+    </script>
+</body>
+
+</html>

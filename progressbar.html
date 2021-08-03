@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+    <script type="text/babel">
+        const rootHandle = document.getElementById("root");
+        const { useState } = React;
+        function ProgressBar(props) {
+            const { task } = props;
+            let range = 0;
+            task.forEach((ele) => {
+                if (ele.completed) {
+                    range += 1;
+                }
+            });
+            return <progress value={range} max={task.length} />;
+        }
+        function TasksList(props) {
+            const { task, handleChange } = props;
+            return (
+                <div>
+                    <ul>
+                        {task.map((ele) => {
+                            return (
+                                <li
+                                    key={ele.id}
+                                    style={{
+                                        textDecoration: ele.completed ? "line-through" : "none",
+                                    }}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={ele.completed}
+                                        onChange={() => {
+                                            handleChange(ele.id);
+                                        }}
+                                    />
+                                    {ele.title}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            );
+        }
+        function TasksContainer(props) {
+            const { tasks } = props;
+            const [task, setTask] = useState(tasks);
+            const handleChange = (id) => {
+                const result = task.map((ele) => {
+                    if (ele.id === id) {
+                        return { ...ele, ...{ completed: !ele.completed } };
+                    } else {
+                        return { ...ele };
+                    }
+                });
+                setTask(result);
+            };
+            return (
+                <div>
+                    <h2>Listing Tasks - {task.length}</h2>
+                    <ProgressBar task={task} />
+                    <TasksList task={task} handleChange={handleChange} />
+                </div>
+            );
+        }
+        function App() {
+            const tasks = [
+                { id: 1, title: "get the website live", completed: true },
+                { id: 2, title: "work on user validation", completed: false },
+                { id: 3, title: "Automate the deployment process", completed: false },
+            ];
+            return <TasksContainer tasks={tasks} />;
+        }
+        ReactDOM.render(<App />, rootHandle);
+    </script>
+</body>
+
+</html>

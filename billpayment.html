@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script src="..\js\react.development.js"></script>
+    <script src="..\js\react-dom.development.js"></script>
+    <script src="..\js\babel.js"></script>
+
+    <script type="text/babel">
+        const { useState } = React
+        const rootHandle = document.getElementById('root')
+        function Billpayment(props) {
+            const [bill, setBill] = useState("idea")
+            const placeholder=`enter your ${bill} number`
+            const handleTypeChange=(e)=>{
+                const typeInput=e.target.value
+               // console.log(typeInput)
+               setBill(typeInput)
+
+            }
+            return (
+                <div>
+                    <h1>Pay the bill of-{bill}</h1>
+                    <input type="radio" checked={bill === "idea"} value="idea" name="addType" onChange={handleTypeChange}/>idea <br />
+                    <input type="radio" checked={bill === "vodafone"} value="vodafone" name="bill" onChange={handleTypeChange}/>vodafone <br />
+                    <input type="radio" checked={bill === "airtel"} value="airtel" name="bill" onChange={handleTypeChange}/>airtel <br />
+                    <input type="number" placeholder={placeholder}/>
+
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Billpayment />, rootHandle)
+    </script>
+</body>
+
+</html>

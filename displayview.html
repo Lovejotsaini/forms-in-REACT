@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>template</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+
+    <script src="..\js\react.development.js"></script>
+    <script src="..\js\react-dom.development.js"></script>
+    <script src="..\js\babel.js"></script>
+
+    <script type="text/babel">
+       const rootHandle = document.getElementById("root");
+        const { useState } = React;
+        function EmployeeList(props) {
+            const { employees } = props;
+            return (
+                <div>
+                    <h1>Listing employees-{employees.length}</h1>
+                <ul>
+                    {employees.map((emp) => {
+                        return (
+                            <li key={emp.id}>
+                                {emp.name}-{emp.email}
+                            </li>
+                        );
+                    })}
+                </ul>
+                </div>
+            );
+        }
+        function EmployeeTable(props) {
+            const { employees } = props;
+            return (
+                <table border="2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>name</th>
+                            <th>email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {employees.map((emp) => {
+                            return (
+                                <tr key={emp.id}>
+                                    <td>{emp.id}</td>
+                                    <td>{emp.name}</td>
+                                    <td>{emp.email}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            );
+        }
+        function EmployeeContainer(props) {
+            const { employees } = props;
+            const [display,setDisplay]=useState("list")
+            const handleDisplayChange=(e)=>{
+                const result=e.target.value
+                setDisplay(result)
+            }
+           return(
+               <div>
+               <form>
+                <input type="radio" name="display" value="list" checked={display=="list"}
+                onChange={handleDisplayChange}
+                />list
+                <input type="radio" name="display" value="table" checked={display == "table"}
+                       onChange={handleDisplayChange}
+                   />table
+                </form>
+                {display==="list"?<EmployeeList employees={employees}/>:<EmployeeTable employees={employees}/>}
+          </div>
+                )
+           
+              
+        }
+        function App(props) {
+            const employees = [
+                { id: 1, name: "emp1", email: "emp1@gmail.com" },
+                { id: 2, name: "emp2", email: "emp2@gmail.com" },
+                { id: 3, name: "emp3", email: "emp3@gmail.com" },
+                { id: 4, name: "emp4", email: "emp4@gmail.com" },
+            ];
+            return <EmployeeContainer employees={employees} />;
+        }
+        ReactDOM.render(<App />, rootHandle);
+    </script>
+</body>
+
+</html>
